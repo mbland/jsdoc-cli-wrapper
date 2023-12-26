@@ -1,0 +1,32 @@
+{
+  "name": "jsdoc-cli-wrapper",
+  "version": "1.0.0",
+  "description": "JSDoc command line interface wrapper",
+  "main": "index.js",
+  "scripts": {
+    "test": "vitest",
+    "test:coverage": "vitest --coverage",
+    "test:ci": "vitest",
+    "jsdoc": "node index.js -c jsdoc.json ."
+  },
+  "keywords": [
+    "jsdoc",
+    "JavaScript"
+  ],
+  "author": "Mike Bland <mbland@acm.org> (https://mike-bland.com/)",
+  "license": "MPL-2.0",
+  "type": "module",
+  "homepage": "https://github.com/mbland/jsdoc-cli-wrapper",
+  "repository": "https://github.com/mbland/jsdoc-cli-wrapper",
+  "bugs": "https://github.com/mbland/jsdoc-cli-wrapperr/issues",
+  "devDependencies": {
+    "@stylistic/eslint-plugin-js": "^1.5.1",
+    "@vitest/coverage-istanbul": "^1.1.0",
+    "@vitest/coverage-v8": "^1.1.0",
+    "@vitest/ui": "^1.1.0",
+    "eslint": "^8.56.0",
+    "eslint-plugin-jsdoc": "^46.9.1",
+    "eslint-plugin-vitest": "^0.3.20",
+    "vitest": "^1.1.0"
+  }
+}

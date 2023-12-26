@@ -1,0 +1,12 @@
+.DS_Store
+.idea
+.vscode
+build
+coverage
+dist
+jsdoc
+node_modules
+out
+pnpm-debug.log
+tmp
+*.log
