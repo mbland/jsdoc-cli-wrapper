@@ -4,9 +4,10 @@
   "description": "JSDoc command line interface wrapper",
   "main": "index.js",
   "scripts": {
+    "lint": "eslint --color --max-warnings 0 .",
     "test": "vitest",
     "test:coverage": "vitest --coverage",
-    "test:ci": "vitest",
+    "test:ci": "eslint --color --max-warnings 0 . && vitest",
     "jsdoc": "node index.js -c jsdoc.json ."
   },
   "keywords": [
