@@ -38,21 +38,24 @@ would use `jsdoc` on its own.
 
 The `jsdoc` command will:
 
-- silently write new output into an existing directory, and
-- not show where the generated `index.html` entrypoint resides.
+1. silently write new output into an existing directory, and
+2. not show where the generated `index.html` entrypoint resides.
+
+While admittedly minor annoyances, they're still annoyances:
+
+1. It can be surprising to change the structure of your project, run `jsdoc`,
+   and have stale files and directories laying around. This can make it
+   inconvenient to find where the newly generated documentation actually is.
+
+2. Seeing the path to the new `index.html` helps make sure things end up where
+   you expect. This is especially useful when the JavaScript code is embedded in
+   a larger, possibly multilanguage repository. It also makes it far more
+   convenient to copy the path and open it in a browser.
 
 `jsdoc` doesn't have any command line options to deal with either of these
 issues. Not even `--verbose` nor `--debug` will show the path to `index.html`.
 
 This wrapper resolves both of those minor annoyances.
-
-- Regarding the first, it can be surprising to change the structure of your
-  project, run `jsdoc`, and have stale files and directories laying around.
-
-- Regarding the second, it's really handy to print the path to `index.html`. It
-  helps make sure things end up where you expect, and makes it convenient to
-  copy and open in a browser. This is especially useful when the JavaScript code
-  is embedded in a larger, possibly multilanguage repository.
 
 ## Examples
 
@@ -109,9 +112,28 @@ $ pnpm jsdoc
 ../../../build/jsdoc/tomcat-servlet-testing-example-frontend/0.0.0/index.html
 ```
 
+## Background
+
+I developed this while experimenting with JSDoc on
+[mbland/tomcat-servlet-testing-example][]. I was surprised and frustrated that
+the CLI was silent when it came to reporting where it emitted its output.
+
+My first version of the wrapper was a short [Bash][] script, which is available
+here as [orig/jsdoc.sh](./orig/jsdoc.sh). It was short and to the point, and
+used variations of `sed` and `find` that I'd somehow never used before. (In
+fact, that's the main reason why I'm keeping it around, for reference.)
+
+It helped me move forward and was a great proof of concept, but was nowhere near
+as robust as the [Node.js][] version in this package. It also wasn't natively
+portable to Windows. So I decided to dig in and make it so, using it as a
+Node.js, JSDoc, and [npm packaging][] exercise as well.
+
 [JSDoc]: https://jsdoc.app/
 [cli]: https://github.com/jsdoc/jsdoc
 [coveralls-jsdw]: https://coveralls.io/github/mbland/jsdoc-cli-wrapper?branch=main
 [pnpm]: https://pnpm.io/
 [mbland/tomcat-servlet-testing-example]: https://github.com/mbland/tomcat-servlet-testing-example
 [Gradle]: https://gradle.org/
+[Bash]: https://www.gnu.org/software/bash/
+[Node.js]: https://nodejs.org/
+[npm packaging]: https://docs.npmjs.com/packages-and-modules
