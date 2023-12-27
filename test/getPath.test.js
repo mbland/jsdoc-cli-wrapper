@@ -5,8 +5,8 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { getPath } from '../lib/index.js'
-import { fixturePath, fixtureEnv } from './fixtures/index.js'
+import { getPath } from '../lib'
+import { fixturePath, fixtureEnv } from './fixtures'
 import { describe, expect, test } from 'vitest'
 import path from 'node:path'
 

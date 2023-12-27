@@ -5,8 +5,8 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { findFile, runJsdoc } from '../lib/index.js'
-import { fixturePath } from './fixtures/index.js'
+import { findFile, runJsdoc } from '../lib'
+import { fixturePath } from './fixtures'
 import { afterEach, beforeEach, describe, expect, test } from 'vitest'
 import { mkdir, mkdtemp, readFile, rm, writeFile } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
