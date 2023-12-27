@@ -5,39 +5,32 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { findFile, runJsdoc } from '../lib'
+import { runJsdoc } from '../lib'
 import { fixturePath } from './fixtures'
+import DestDirHelper from './DestDirHelper'
 import { afterEach, beforeEach, describe, expect, test } from 'vitest'
-import { mkdir, mkdtemp, readFile, rm, writeFile } from 'node:fs/promises'
-import { tmpdir } from 'node:os'
 import path from 'node:path'
 
 describe('runJsdoc', () => {
-  const root = fixturePath('runJsdoc')
+  const root = fixturePath('fakeJsdoc')
   const env = { PATH: root }
   const platform = process.platform
+  const destDirHelper = new DestDirHelper()
 
-  let destDir = null
   let origIndexPath = null
   let argv = []
 
   beforeEach(async () => {
-    destDir = await mkdtemp(path.join(tmpdir(), 'runJsdoc-test-'))
-    origIndexPath = path.join(destDir, 'old-subdir', 'index.html')
+    const { destDir, indexPath } = await destDirHelper.createIndexHtml(
+      'runJsdoc-test-', 'old-subdir', 'Old and Busted'
+    )
     argv = ['-d', destDir]
-
-    await mkdir(path.dirname(origIndexPath), {recursive: true})
-    await writeFile(origIndexPath, 'Old and Busted')
+    origIndexPath = indexPath
   })
 
-  afterEach(async () => {
-    await rm(destDir, {force: true, recursive: true})
-  })
+  afterEach(async () => await destDirHelper.cleanup())
 
-  const readIndexHtml = async () => {
-    const actualPath = await findFile(destDir, 'index.html')
-    return {actualPath, content: await readFile(actualPath, {encoding: 'utf8'})}
-  }
+  const readIndexHtml = async () => destDirHelper.readIndexHtml()
 
   test('emits error if jsdoc not found', async () => {
     const bogusPath = path.join(root, 'nonexistent')
