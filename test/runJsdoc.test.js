@@ -5,11 +5,13 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { runJsdoc, PATH_KEY } from '../lib'
+import { runJsdoc, pathKey } from '../lib'
 import { fixturePath } from './fixtures'
 import DestDirHelper from './DestDirHelper'
 import { afterEach, beforeEach, describe, expect, test } from 'vitest'
 import path from 'node:path'
+
+const PATH_KEY = pathKey(process.platform)
 
 describe('runJsdoc', () => {
   const root = fixturePath('jsdocStub')
