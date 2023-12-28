@@ -36,5 +36,6 @@ export function fixtureEnv(fixtureName) {
   const paths = [
     path.join('usr', 'local', 'bin'), path.join('usr', 'bin'), 'bin'
   ]
-  return { PATH: paths.map(p => path.join(root, p)).join(path.delimiter) }
+  const pathKey = process.platform !== 'win32' ? 'PATH' : 'Path'
+  return {[pathKey]: paths.map(p => path.join(root, p)).join(path.delimiter)}
 }
