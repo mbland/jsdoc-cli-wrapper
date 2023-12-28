@@ -10,32 +10,25 @@ import { fixturePath } from './fixtures'
 import { describe, expect, test } from 'vitest'
 import path from 'node:path'
 
-const PATH_KEY = pathKey(process.platform)
-
 describe('getPath', () => {
   const root = fixturePath('getPath')
   const envPath = ['usr/local/bin', 'usr/bin', 'bin']
     .map(p => path.join(root, p))
     .join(path.delimiter)
+  const makeEnv = (platform) => ({[pathKey(platform)]: envPath})
 
   test('finds command on POSIX system', async() => {
-    const env = {[pathKey('linux')]: envPath}
-
-    await expect(getPath('testcmd', env, 'linux')).resolves
+    await expect(getPath('testcmd', makeEnv('linux'), 'linux')).resolves
       .toBe(path.join(root, 'bin/testcmd'))
   })
 
   test('finds command on Windows system', async() => {
-    const env = {[pathKey('win32')]: envPath}
-
-    await expect(getPath('testcmd', env, 'win32')).resolves
+    await expect(getPath('testcmd', makeEnv('win32'), 'win32')).resolves
       .toBe(path.join(root, 'usr/bin/testcmd.CMD'))
   })
 
   test('rejects when command isn\'t found', async () => {
-    const env = {[PATH_KEY]: envPath}
-
-    await expect(getPath('nonexistent', env, process.platform)).rejects
-      .toBe(`nonexistent not found in ${PATH_KEY}`)
+    await expect(getPath('nonexistent', makeEnv('linux'), 'linux')).rejects
+      .toBe(`nonexistent not found in ${pathKey('linux')}`)
   })
 })
