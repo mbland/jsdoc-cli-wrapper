@@ -12,7 +12,7 @@ import { afterEach, beforeEach, describe, expect, test } from 'vitest'
 import path from 'node:path'
 
 describe('runJsdoc', () => {
-  const root = fixturePath('fakeJsdoc')
+  const root = fixturePath('jsdocStub')
   const env = { [PATH_KEY]: root }
   const platform = process.platform
   const destDirHelper = new DestDirHelper()

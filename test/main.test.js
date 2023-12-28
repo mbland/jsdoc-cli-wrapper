@@ -14,7 +14,7 @@ import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 
 describe('jsdoc-cli-wrapper', () => {
-  const root = fixturePath('fakeJsdoc')
+  const root = fixturePath('jsdocStub')
   const destDirHelper = new DestDirHelper()
   const mainPath = fileURLToPath(new URL('../index.js', import.meta.url))
 
