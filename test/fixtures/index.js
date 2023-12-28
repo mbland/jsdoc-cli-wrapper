@@ -5,6 +5,7 @@
  */
 
 import path from 'node:path'
+import { fileURLToPath } from 'node:url'
 
 /**
  * Returns the absolute path to a test fixture directory.
@@ -12,7 +13,7 @@ import path from 'node:path'
  * @returns {string} - the absolute path to the test fixture directory
  */
 export function fixturePath(fixtureName) {
-  return new URL(fixtureName, import.meta.url).pathname
+  return fileURLToPath(new URL(fixtureName, import.meta.url))
 }
 
 /**
