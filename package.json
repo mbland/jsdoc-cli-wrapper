@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "JSDoc command line interface wrapper",
   "main": "index.js",
+  "bin": "./index.js",
   "scripts": {
     "lint": "eslint --color --max-warnings 0 .",
     "test": "vitest",
