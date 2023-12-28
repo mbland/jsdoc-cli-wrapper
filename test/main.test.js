@@ -49,9 +49,10 @@ describe('jsdoc-cli-wrapper', () => {
 
     try {
       const jsdocPath = await getPath('jsdoc', process.env, process.platform)
-      const jsdocDir = path.dirname(jsdocPath).replaceAll('\\', '\\\\')
-      const pat = new RegExp(`${path.delimiter}?${jsdocDir}${path.delimiter}?`)
-      testEnvPath = testEnvPath.replace(pat, '')
+      const jsdocDir = path.dirname(jsdocPath)
+      testEnvPath = testEnvPath.split(path.delimiter)
+        .filter(p => p !== jsdocDir)
+        .join(path.delimiter)
     } catch { /* It's OK if it's not actually installed. */ }
 
     return spawnMain(testEnvPath, ...argv)
