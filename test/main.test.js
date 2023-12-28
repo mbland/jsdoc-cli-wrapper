@@ -11,19 +11,20 @@ import DestDirHelper from './DestDirHelper'
 import { afterEach, describe, expect, test } from 'vitest'
 import { spawn } from 'node:child_process'
 import path from 'node:path'
+import { fileURLToPath } from 'node:url'
 
 describe('jsdoc-cli-wrapper', () => {
   const root = fixturePath('fakeJsdoc')
   const destDirHelper = new DestDirHelper()
+  const mainPath = fileURLToPath(new URL('../index.js', import.meta.url))
 
   afterEach(async () => await destDirHelper.cleanup())
 
   const spawnMain = async(testEnvPath, ...argv) => {
-    const origPath = process.env.PATH
+    const origEnvPath = process.env.PATH
     process.env.PATH = testEnvPath
 
     const result = await new Promise(resolve => {
-      const mainPath = new URL('../index.js', import.meta.url).pathname
       const wrapper = spawn(mainPath, argv)
       let stdout = ''
       let stderr = ''
@@ -38,7 +39,7 @@ describe('jsdoc-cli-wrapper', () => {
       })
     })
 
-    process.env.PATH = origPath
+    process.env.PATH = origEnvPath
     return result
   }
 
