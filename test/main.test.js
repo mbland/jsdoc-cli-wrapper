@@ -19,45 +19,41 @@ describe('jsdoc-cli-wrapper', () => {
   const root = fixturePath('jsdocStub')
   const destDirHelper = new DestDirHelper()
   const mainPath = fileURLToPath(new URL('../index.js', import.meta.url))
+  const envPath = [root, process.env[PATH_KEY]].join(path.delimiter)
 
   afterEach(async () => await destDirHelper.cleanup())
 
-  const spawnMain = (testEnvPath, ...argv) => {
-    return new Promise((resolve, reject) => {
-      const env = {...process.env, [PATH_KEY]: testEnvPath}
-      const wrapper = spawn(process.execPath, [mainPath, ...argv], {env})
-      let stdout = ''
-      let stderr = ''
+  const spawnMain = (testEnvPath, ...argv) => new Promise((resolve, reject) => {
+    const env = {...process.env, [PATH_KEY]: testEnvPath}
+    const wrapper = spawn(process.execPath, [mainPath, ...argv], {env})
+    let stdout = ''
+    let stderr = ''
 
-      wrapper.stdout.on('data', data => stdout += data.toString())
-      wrapper.stderr.on('data', data => stderr += data.toString())
-      wrapper.on('close', exitCode => {
-        const result = { exitCode }
-        if (stdout) result.stdout = stdout
-        if (stderr) result.stderr = stderr
-        resolve(result)
-      })
-      wrapper.on('error', (err) => reject(err))
+    wrapper.stdout.on('data', data => stdout += data.toString())
+    wrapper.stderr.on('data', data => stderr += data.toString())
+    wrapper.on('close', exitCode => {
+      const result = { exitCode }
+      if (stdout) result.stdout = stdout
+      if (stderr) result.stderr = stderr
+      resolve(result)
     })
-  }
+    wrapper.on('error', (err) => reject(err))
+  })
 
-  const runMain = async (...argv) => {
-    const testEnvPath = [root, process.env[PATH_KEY]].join(path.delimiter)
-    return spawnMain(testEnvPath, ...argv)
-  }
+  const runMain = (...argv) => spawnMain(envPath, ...argv)
 
   const runMainWithoutJsdoc = async (...argv) => {
-    let testEnvPath = process.env[PATH_KEY]
+    let envPath = process.env[PATH_KEY]
 
     try {
       const jsdocPath = await getPath('jsdoc', process.env, process.platform)
       const jsdocDir = path.dirname(jsdocPath)
-      testEnvPath = testEnvPath.split(path.delimiter)
+      envPath = envPath.split(path.delimiter)
         .filter(p => p !== jsdocDir)
         .join(path.delimiter)
     } catch { /* It's OK if it's not actually installed. */ }
 
-    return spawnMain(testEnvPath, ...argv)
+    return spawnMain(envPath, ...argv)
   }
 
   test('success without index.html path', async () => {
