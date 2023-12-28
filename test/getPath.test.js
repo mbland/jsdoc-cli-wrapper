@@ -5,7 +5,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { getPath } from '../lib'
+import { getPath, PATH_KEY } from '../lib'
 import { fixturePath, fixtureEnv } from './fixtures'
 import { describe, expect, test } from 'vitest'
 import path from 'node:path'
@@ -26,6 +26,6 @@ describe('getPath', () => {
 
   test('rejects when command isn\'t found', async () => {
     await expect(getPath('nonexistent', env, process.platform)).rejects
-      .toBe('nonexistent not found in PATH')
+      .toBe(`nonexistent not found in ${PATH_KEY}`)
   })
 })

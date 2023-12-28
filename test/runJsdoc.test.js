@@ -5,15 +5,15 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { runJsdoc } from '../lib'
+import { runJsdoc, PATH_KEY } from '../lib'
 import { fixturePath } from './fixtures'
 import DestDirHelper from './DestDirHelper'
 import { afterEach, beforeEach, describe, expect, test } from 'vitest'
 import path from 'node:path'
 
 describe('runJsdoc', () => {
-  const root = fixturePath('fakeJsdoc')
-  const env = { PATH: root }
+  const root = fixturePath('jsdocStub')
+  const env = { [PATH_KEY]: root }
   const platform = process.platform
   const destDirHelper = new DestDirHelper()
 
@@ -35,7 +35,7 @@ describe('runJsdoc', () => {
   test('emits error if jsdoc not found', async () => {
     const bogusPath = path.join(root, 'nonexistent')
 
-    await expect(runJsdoc(argv, {PATH: bogusPath}, platform))
+    await expect(runJsdoc(argv, {[PATH_KEY]: bogusPath}, platform))
       .rejects.toContain('npm add -g jsdoc')
     await expect(readIndexHtml()).resolves.toStrictEqual({
       actualPath: origIndexPath, content: 'Old and Busted'
