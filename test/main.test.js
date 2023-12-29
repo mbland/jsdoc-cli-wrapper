@@ -37,7 +37,7 @@ describe('jsdoc-cli-wrapper', () => {
       if (stderr) result.stderr = stderr
       resolve(result)
     })
-    wrapper.on('error', (err) => reject(err))
+    wrapper.on('error', err => reject(err))
   })
 
   const runMain = (...argv) => spawnMain(envPath, ...argv)

@@ -11,6 +11,7 @@
  * Removes the existing destination directory if it exists, runs JSDoc, and
  * emits the relative path to the generated index.html file.
  * @author Mike Bland <mbland@acm.org>
+ * @license MPL-2.0
  */
 
 import { runJsdoc } from './lib/index.js'
