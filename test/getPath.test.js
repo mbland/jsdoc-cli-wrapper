@@ -15,7 +15,7 @@ describe('getPath', () => {
   const envPath = ['usr/local/bin', 'usr/bin', 'bin']
     .map(p => path.join(root, p))
     .join(path.delimiter)
-  const makeEnv = (platform) => ({[pathKey(platform)]: envPath})
+  const makeEnv = platform => ({[pathKey(platform)]: envPath})
 
   test('finds command on POSIX system', async() => {
     await expect(getPath('testcmd', makeEnv('linux'), 'linux')).resolves

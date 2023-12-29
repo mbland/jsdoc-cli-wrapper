@@ -10,6 +10,7 @@ Source: <https://github.com/mbland/jsdoc-cli-wrapper>
 [![CI status](https://github.com/mbland/jsdoc-cli-wrapper/actions/workflows/run-tests.yaml/badge.svg)](https://github.com/mbland/jsdoc-cli-wrapper/actions/workflows/run-tests.yaml?branch=main)
 [![Test results](https://github.com/mbland/jsdoc-cli-wrapper/actions/workflows/publish-test-results.yaml/badge.svg)](https://github.com/mbland/jsdoc-cli-wrapper/actions/workflows/publish-test-results.yaml?branch=main)
 [![Coverage Status](https://coveralls.io/repos/github/mbland/jsdoc-cli-wrapper/badge.svg?branch=main)][coveralls-jsdw]
+[![npm version](https://badge.fury.io/js/jsdoc-cli-wrapper.svg)][npm-jsdw]
 
 ## Installation
 
@@ -145,6 +146,7 @@ Node.js, JSDoc, and [npm packaging][] exercise as well.
 [JSDoc]: https://jsdoc.app/
 [cli]: https://github.com/jsdoc/jsdoc
 [coveralls-jsdw]: https://coveralls.io/github/mbland/jsdoc-cli-wrapper?branch=main
+[npm-jsdw]: https://www.npmjs.com/package/jsdoc-cli-wrapper
 [pnpm]: https://pnpm.io/
 [mbland/tomcat-servlet-testing-example]: https://github.com/mbland/tomcat-servlet-testing-example
 [Gradle]: https://gradle.org/

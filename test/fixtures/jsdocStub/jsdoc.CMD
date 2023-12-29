@@ -7,4 +7,4 @@
 :: https://ss64.com/nt/
 :: https://htipe.wordpress.com/2008/10/09/the-dp0-variable/
 @echo off
-node "%~dp0\jsdoc" %*
+node "%~dp0\jsdoc.js" %*
