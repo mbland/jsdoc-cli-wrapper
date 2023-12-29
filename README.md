@@ -32,7 +32,21 @@ pnpm add -D jsdoc-cli-wrapper
 
 This wrapper passes every command line argument through to the `jsdoc` CLI as is
 and doesn't change the behavior of `jsdoc` itself at all. Use it exactly as you
-would use `jsdoc` on its own.
+would use `jsdoc` on its own:
+
+```sh
+$ jsdoc-cli-wrapper -v
+JSDoc 4.0.2 (Sun, 19 Feb 2023 23:01:18 GMT)
+```
+
+You may wish to add a `package.json` script (replacing `jsdoc-config.json` with
+the path to your JSDoc config file):
+
+```json
+"scripts": {
+  "jsdoc": "jsdoc-cli-wrapper -c ./jsdoc-config.json ."
+}
+```
 
 ## Motivation
 
@@ -100,7 +114,7 @@ both the frontend and backend into a common `build/` directory. Its
 ```
 
 Its `package.json` contains a `jsdoc` script that runs this wrapper (before this
-repository existed, it used a local version):
+repository existed, it used a local version, reflected below):
 
 ```sh
 $ cd strcalc/src/main/frontend
