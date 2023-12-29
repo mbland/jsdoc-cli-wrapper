@@ -38,7 +38,6 @@ jobs:
 
       - name: Post test report
         uses: dorny/test-reporter@v1
-        if: always()
         with:
           name: Test Results
           path: 'TESTS-TestSuites.xml'
