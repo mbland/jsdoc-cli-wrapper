@@ -1,6 +1,6 @@
 # JSDoc Command Line Interface Wrapper
 
- Wrapper for the [jsdoc][cli] command line tool for generating [JSDoc][] HTML
+ Wrapper for the [`jsdoc`][cli] command line tool for generating [JSDoc][] HTML
  output. Removes the existing destination directory if it exists, runs `jsdoc`,
  and emits the relative path to the generated `index.html` file.
 
@@ -14,9 +14,9 @@ Source: <https://github.com/mbland/jsdoc-cli-wrapper>
 
 ## Installation
 
-You probably want to install the [jsdoc CLI][cli] first, though the wrapper will
-kindly suggest you do so if it can't find it. Using [pnpm][] to install it once
-for all your local projects:
+You probably want to install the [`jsdoc` CLI][cli] first, though the wrapper will
+kindly suggest you do so if it can't find it. Using [`pnpm`][pnpm] to install it
+once for all your local projects:
 
 ```sh
 pnpm add -g jsdoc
@@ -70,14 +70,14 @@ While admittedly minor annoyances, they're still annoyances:
 `jsdoc` doesn't have any command line options to deal with either of these
 issues. Not even `--verbose` nor `--debug` will show the path to `index.html`.
 
-This wrapper resolves both of those minor annoyances.
+This wrapper resolves both of these minor annoyances.
 
 ## Examples
 
 ### This project
 
-This project's ['jsdoc' script](./package.json) uses [jsdoc.json](./jsdoc.json)
-as its configuration file, resulting in:
+[The 'jsdoc' script from this project's `package.json`](./package.json) uses
+[`jsdoc.json`](./jsdoc.json) as its configuration file, resulting in:
 
 ```sh
 $ pnpm jsdoc
@@ -198,7 +198,7 @@ I developed this while experimenting with JSDoc on
 the CLI was silent when it came to reporting where it emitted its output.
 
 My first version of the wrapper was a short [Bash][] script, which is available
-here as [orig/jsdoc.sh](./orig/jsdoc.sh). It was short and to the point, and
+here as [`orig/jsdoc.sh`](./orig/jsdoc.sh). It was short and to the point, and
 used variations of `sed` and `find` that I'd somehow never used before. (In
 fact, that's the main reason why I'm keeping it around, for reference.)
 
@@ -206,6 +206,16 @@ It helped me move forward and was a great proof of concept, but was nowhere near
 as robust as the [Node.js][] version in this package. It also wasn't natively
 portable to Windows. So I decided to dig in and make it so, using it as a
 Node.js, JSDoc, and [npm packaging][] exercise as well.
+
+## Copyright
+
+&copy; 2023 Mike Bland &lt;<mbland@acm.org>&gt; (<https://mike-bland.com/>)
+
+## License
+
+Licensed under the [Mozilla Public License, v. 2.0][mpl-20], included in this
+repository as [LICENSE.txt](./LICENSE.txt). See the [MPL 2.0 FAQ][mpl-faq] for a
+higher level explanation.
 
 [JSDoc]: https://jsdoc.app/
 [cli]: https://github.com/jsdoc/jsdoc
@@ -226,3 +236,5 @@ Node.js, JSDoc, and [npm packaging][] exercise as well.
 [Bash]: https://www.gnu.org/software/bash/
 [Node.js]: https://nodejs.org/
 [npm packaging]: https://docs.npmjs.com/packages-and-modules
+[mpl-20]: https://mozilla.org/MPL/2.0/
+[mpl-faq]: https://www.mozilla.org/MPL/2.0/FAQ/
