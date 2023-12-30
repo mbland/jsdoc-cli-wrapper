@@ -127,6 +127,70 @@ $ pnpm jsdoc
 ../../../build/jsdoc/tomcat-servlet-testing-example-frontend/0.0.0/index.html
 ```
 
+## Development
+
+Uses [pnpm][] and [Vitest][] for building and testing.
+
+### JSON with comments
+
+You may want to configure your editor to recognize comments in JSON files, since
+this project and [JSDoc][] both support them.
+
+#### [Vim][]
+
+Add to your `~/.vimrc`, based on advice from [Stack Overflow: Why does Vim
+highlight all my JSON comments in red?][so-vim]:
+
+```vim
+" With a little help from:
+" - https://stackoverflow.com/questions/55669954/why-does-vim-highlight-all-my-json-comments-in-red
+autocmd FileType json syntax match Comment "//.*"
+autocmd FileType json syn region jsonBlockComment start="/\*" end="\*/" fold
+autocmd FileType json hi def link jsonBlockComment Comment
+```
+
+#### [Visual Studio Code][]
+
+[VS Code supports JSON with Comments][vsc-jsonc]. Following the good advice from
+[Stack Overflow: In VS Code, disable error "Comments are not permitted in
+JSON"][so-vsc]:
+
+##### Method 1, verbatim from <https://stackoverflow.com/a/47834826>
+
+1. Click on the letters JSON in the bottom right corner. (A drop-down will
+   appear to "Select the Language Mode.")
+2. Select "Configure File Association for '.json'..."
+3. Type "jsonc" and press Enter.
+
+##### Method 2, nearly verbatim from <https://stackoverflow.com/a/48773989>
+
+Add this to your User Settings:
+
+```json
+"files.associations": {
+    "*.json": "jsonc"
+},
+```
+
+If you don't already have a user settings file, you can create one. Hit
+**&#8984;, or CTRL-,** (that's a comma) to open your settings, then hit
+the Open Settings (JSON) button in the upper right. (It looks like a page with a
+little curved arrow over it.)
+
+- Or invoke the **[Preferences: Open User Settings (JSON)][vsc-settings]**
+  command.
+
+#### [IntelliJ IDEA][]
+
+You can effectively enable comments by [extending the JSON5 syntax to all JSON
+files][idea-json5]:
+
+1. In the Settings dialog (**&#8984;,** or **CTRL-,**), go to **Editor | File
+   Types**.
+2. In the **Recognized File Types** list, select **JSON5**.
+3. In the **File Name Patterns** area, click **&#65291; (Add)** and type `.json`
+   in the **Add Wildcard** dialog that opens.
+
 ## Background
 
 I developed this while experimenting with JSDoc on
@@ -150,6 +214,15 @@ Node.js, JSDoc, and [npm packaging][] exercise as well.
 [pnpm]: https://pnpm.io/
 [mbland/tomcat-servlet-testing-example]: https://github.com/mbland/tomcat-servlet-testing-example
 [Gradle]: https://gradle.org/
+[Vitest]: https://vitest.dev/
+[Vim]: https://www.vim.org/
+[so-vim]: https://stackoverflow.com/questions/55669954/why-does-vim-highlight-all-my-json-comments-in-red
+[Visual Studio Code]: https://code.visualstudio.com/
+[vsc-jsonc]: https://code.visualstudio.com/Docs/languages/json#_json-with-comments
+[so-vsc]: https://stackoverflow.com/questions/47834825/in-vs-code-disable-error-comments-are-not-permitted-in-json
+[vsc-settings]: https://code.visualstudio.com/docs/getstarted/settings#_settingsjson
+[IntelliJ IDEA]: https://www.jetbrains.com/idea/
+[idea-json5]: https://www.jetbrains.com/help/idea/json.html#ws_json_choose_version_procedure
 [Bash]: https://www.gnu.org/software/bash/
 [Node.js]: https://nodejs.org/
 [npm packaging]: https://docs.npmjs.com/packages-and-modules
