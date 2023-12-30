@@ -49,6 +49,21 @@ the path to your JSDoc config file):
 }
 ```
 
+### Opening the link
+
+Running the wrapper will generate the link to the generated `index.html` file, e.g.:
+
+```text
+jsdoc/jsdoc-cli-wrapper/1.0.0/index.html
+```
+
+You can open this link from the command line via the following commands,
+replacing `path/to/index.html` with your actual `index.html` path:
+
+- **macOS**: `open path/to/index.html`
+- **Linux**: `xdg-open path/to/index.html`
+- **Windows**: `start path\to\index.html`
+
 ## Motivation
 
 The `jsdoc` command will:
