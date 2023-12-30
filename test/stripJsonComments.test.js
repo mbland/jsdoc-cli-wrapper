@@ -213,69 +213,77 @@ describe('stripJsonComments', () => {
   })
 
   describe('maintains correct syntax error position info when', () => {
+    // JSON.parse() from Node.js ^18.0.0 only ever fails with "Unexpected
+    // token", whereas versions >= 19.0.0 provide more descriptive errors.
+    const v18 = process.version.startsWith('v18.')
+    const errPrefix = (token, msg) => v18 ? `Unexpected token ${token} in` : msg
+
+    const jsonSrc = (...lines) => lines.join('\n')
+    const stripAndParse = (src) => () => JSON.parse(stripJsonComments(src))
+
     test('* not preceded or followed by /', () => {
-      const str = [
+      const src = jsonSrc(
         '{',
         '  // Starting off strong...',
         '   "foo": "bar",',
         '   * ...but forgot opening slash on this line. */',
         '   "baz": "quux",',
         '}'
-      ].join('\n')
-      const badPos = str.indexOf('* ...but forgot')
+      )
 
-      expect(() => JSON.parse(stripJsonComments(str))).toThrowError(
-        `Expected double-quoted property name in JSON at position ${badPos}`
+      expect(stripAndParse(src)).toThrowError(
+        errPrefix('*', 'Expected double-quoted property name in') +
+        ` JSON at position ${src.indexOf('* ...but forgot opening slash')}`
       )
     })
 
     test('/ not followed by /', () => {
-      const str = [
+      const src = jsonSrc(
         '{',
         '  // Starting off strong...',
         '   "foo": "bar",',
         '   / ...but forgot opening slash on this line.',
         '   "baz": "quux",',
         '}'
-      ].join('\n')
-      const badPos = str.indexOf('/ ...but forgot')
+      )
 
-      expect(() => JSON.parse(stripJsonComments(str))).toThrowError(
-        `Expected double-quoted property name in JSON at position ${badPos}`
+      expect(stripAndParse(src)).toThrowError(
+        errPrefix('/', 'Expected double-quoted property name in') +
+        ` JSON at position ${src.indexOf('/ ...but forgot opening slash')}`
       )
     })
 
     test('multiple trailing commas are present', () => {
-      const str = [
+      const src = jsonSrc(
         '{',
         '  // Starting off strong...',
         '   "foo": "bar",',
         '  // ...but added too many trailing commas on the next line.',
         '   "baz": "quux",,,',
         '}'
-      ].join('\n')
-      // The last comma will become a space, so JSON.parse() will break on the
-      // one before that.
-      const badPos = str.indexOf(',,,') + 1
+      )
 
-      expect(() => JSON.parse(stripJsonComments(str))).toThrowError(
-        `Expected double-quoted property name in JSON at position ${badPos}`
+      expect(stripAndParse(src)).toThrowError(
+        errPrefix(',', 'Expected double-quoted property name in') +
+        // The last comma will become a space, so JSON.parse() will break on the
+        // one before that.
+        ` JSON at position ${src.indexOf(',,,') + 1}`
       )
     })
 
     test('trailing commas don\'t follow an element or property', () => {
-      const str = [
+      const src = jsonSrc(
         '{',
         '  // Starting off strong...',
         '   "foo": "bar",',
         '  /* ...still looking good... */',
         '   "baz": "quux",',
         '}, // ...but this last comma is a problem.'
-      ].join('\n')
-      const badPos = str.indexOf(', // ...but')
+      )
 
-      expect(() => JSON.parse(stripJsonComments(str))).toThrowError(
-        `Unexpected non-whitespace character after JSON at position ${badPos}`
+      expect(stripAndParse(src)).toThrowError(
+        errPrefix(',', 'Unexpected non-whitespace character after') +
+        ` JSON at position ${src.indexOf(', // ...but this last comma')}`
       )
     })
   })
