@@ -11,7 +11,7 @@ import DestDirHelper from './DestDirHelper'
 import { afterEach, describe, expect, test } from 'vitest'
 import { spawn } from 'node:child_process'
 import path from 'node:path'
-import { fileURLToPath } from 'node:url'
+import { fileURLToPath, pathToFileURL } from 'node:url'
 
 const PATH_KEY = pathKey(process.platform)
 
@@ -69,10 +69,10 @@ describe('jsdoc-cli-wrapper', () => {
     const { destDir, indexPath } = await destDirHelper.createIndexHtml(
       'jsdoc-cli-wrapper-test-', 'old-subdir', 'Old and Busted'
     )
+    const result = pathToFileURL(indexPath.replace('old-subdir', 'new-subdir'))
 
     await expect(runMain('-d', destDir)).resolves.toStrictEqual({
-      exitCode: 0,
-      stdout: `${indexPath.replace('old-subdir', 'new-subdir')}\n`
+      exitCode: 0, stdout: `${result}\n`
     })
   })
 
