@@ -16,12 +16,13 @@
 
 import { runJsdoc } from './lib/index.js'
 import { exit, stdout } from 'node:process'
+import { pathToFileURL } from 'node:url'
 
 try {
   const {exitCode, indexHtml} = await runJsdoc(
     process.argv.slice(2), process.env, process.platform
   )
-  if (indexHtml !== undefined) stdout.write(`${indexHtml}\n`)
+  if (indexHtml !== undefined) stdout.write(`${pathToFileURL(indexHtml)}\n`)
   exit(exitCode)
 
 } catch (err) {
