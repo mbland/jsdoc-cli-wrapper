@@ -237,11 +237,12 @@ Node.js, JSDoc, and [npm packaging][] exercise as well.
 
 &copy; 2023 Mike Bland &lt;<mbland@acm.org>&gt; (<https://mike-bland.com/>)
 
-## License
+## Open Source License
 
-Licensed under the [Mozilla Public License, v. 2.0][mpl-20], included in this
-repository as [LICENSE.txt](./LICENSE.txt). See the [MPL 2.0 FAQ][mpl-faq] for a
-higher level explanation.
+This software is made available as [Open Source software][] under the [Mozilla
+Public License 2.0][]. For the text of the license, see the
+[LICENSE.txt](./LICENSE.txt) file. See the [MPL 2.0 FAQ][mpl-faq] for a higher
+level explanation.
 
 [JSDoc]: https://jsdoc.app/
 [cli]: https://github.com/jsdoc/jsdoc
@@ -262,5 +263,6 @@ higher level explanation.
 [Bash]: https://www.gnu.org/software/bash/
 [Node.js]: https://nodejs.org/
 [npm packaging]: https://docs.npmjs.com/packages-and-modules
-[mpl-20]: https://mozilla.org/MPL/2.0/
+[Open Source software]: https://opensource.org/osd-annotated
+[Mozilla Public License 2.0]: https://www.mozilla.org/MPL/
 [mpl-faq]: https://www.mozilla.org/MPL/2.0/FAQ/
