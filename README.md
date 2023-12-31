@@ -55,7 +55,7 @@ Running the wrapper will generate the local `file://` URL to the generated
 `index.html` file, e.g.:
 
 ```text
-file:///Users/.../jsdoc/jsdoc-cli-wrapper/1.0.0/index.html
+file:///path/to/jsdoc/output/jsdoc-cli-wrapper/1.0.0/index.html
 ```
 
 You can click on or copy this link to open it in your browser. You can also open
@@ -99,14 +99,15 @@ This wrapper resolves both of these minor annoyances.
 ```sh
 $ pnpm jsdoc
 
-> jsdoc-cli-wrapper@1.0.0 jsdoc .../jsdoc-cli-wrapper
+> jsdoc-cli-wrapper@1.0.1 jsdoc /path/to/jsdoc-cli-wrapper
 > node index.js -c jsdoc.json .
 
-jsdoc/jsdoc-cli-wrapper/1.0.0/index.html
+file:///path/to/jsdoc-cli-wrapper/jsdoc/jsdoc-cli-wrapper/1.0.0/index.html
 ```
 
 Of course, your own project would use `jsdoc-cli-wrapper` instead of `node
-index.js`. (This project uses the latter to ensure Windows compatibility during development.)
+index.js`. This project uses the latter to ensure that it uses the version from
+the local repository itself.
 
 ### Multilanguage project
 
@@ -131,17 +132,25 @@ both the frontend and backend into a common `build/` directory. Its
 }
 ```
 
-Its `package.json` contains a `jsdoc` script that runs this wrapper (before this
-repository existed, it used a local version, reflected below):
+Its `strcalc/src/main/frontend/package.json` contains a `jsdoc` script that runs
+this wrapper:
+
+```json
+"scripts": {
+  "jsdoc": "jsdoc-cli-wrapper -c ./jsdoc.json ."
+},
+```
+
+Running `pnpm jsdoc` from the `strcalc/src/main/frontend` directory looks like:
 
 ```sh
 $ cd strcalc/src/main/frontend
 $ pnpm jsdoc
 
-> tomcat-servlet-testing-example-frontend@0.0.0 jsdoc .../tomcat-servlet-testing-example/strcalc/src/main/frontend
-> node bin/jsdoc-cli-wrapper.js -c ./jsdoc.json .
+> tomcat-servlet-testing-example-frontend@0.0.0 jsdoc /path/to/tomcat-servlet-testing-example/strcalc/src/main/frontend
+> jsdoc-cli-wrapper -c ./jsdoc.json .
 
-../../../build/jsdoc/tomcat-servlet-testing-example-frontend/0.0.0/index.html
+file:////path/to/tomcat-servlet-testing-example/strcalc/build/jsdoc/tomcat-servlet-testing-example-frontend/0.0.0/index.html
 ```
 
 ## Development
