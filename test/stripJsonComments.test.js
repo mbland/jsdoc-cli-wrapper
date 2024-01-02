@@ -286,5 +286,34 @@ describe('stripJsonComments', () => {
         ` JSON at position ${src.indexOf(', // ...but this last comma')}`
       )
     })
+
+    test('a string contains an escaped space before the closing quote', () => {
+      const src = [
+        '{',
+        '  "opts": {',
+        '    // This comment should disappear regardless.',
+        '    "fubar": "If not handled, the comments below will remain.\\ "',
+        '    /* Escaped space is illegal JSON, but it shouldn\'t hide a',
+        '     * closing quote and prevent comment removal. */',
+        '  }',
+        '}'].join('\n')
+
+      const result = stripJsonComments(src)
+
+      expect(result).toBe([
+        '{',
+        '  "opts": {',
+        '                                                ',
+        '    "fubar": "If not handled, the comments below will remain.\\ "',
+        '                                                             ',
+        '                                                    ',
+        '  }',
+        '}'].join('\n'))
+      expect(() => JSON.parse(result)).toThrowError(
+        // It will choke on the space, not the escape slash.
+        errPrefix(' ', 'Bad escaped character in') +
+        ` JSON at position ${src.indexOf('\\ "') + 1}`
+      )
+    })
   })
 })
