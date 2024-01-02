@@ -55,7 +55,7 @@ Running the wrapper will generate the local `file://` URL to the generated
 `index.html` file, e.g.:
 
 ```text
-file:///path/to/jsdoc/output/jsdoc-cli-wrapper/1.0.3/index.html
+file:///path/to/jsdoc/output/jsdoc-cli-wrapper/1.0.4/index.html
 ```
 
 You can click on or copy this link to open it in your browser. You can also open
@@ -99,10 +99,10 @@ This wrapper resolves both of these minor annoyances.
 ```sh
 $ pnpm jsdoc
 
-> jsdoc-cli-wrapper@1.0.3 jsdoc /path/to/jsdoc-cli-wrapper
+> jsdoc-cli-wrapper@1.0.4 jsdoc /path/to/jsdoc-cli-wrapper
 > node index.js -c jsdoc.json .
 
-file:///path/to/jsdoc-cli-wrapper/jsdoc/jsdoc-cli-wrapper/1.0.3/index.html
+file:///path/to/jsdoc-cli-wrapper/jsdoc/jsdoc-cli-wrapper/1.0.4/index.html
 ```
 
 Of course, your own project would use `jsdoc-cli-wrapper` instead of `node
