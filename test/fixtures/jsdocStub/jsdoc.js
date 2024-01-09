@@ -42,7 +42,7 @@ try {
  * @returns {ArgsResult} - parameters determining fake jsdoc behavior
  */
 function parseArgs(argv) {
-  let destination = null
+  let destination = 'out'
   let willGenerate = true
   let exitCode = 0
 
@@ -61,7 +61,7 @@ function parseArgs(argv) {
       break
 
     case '--exit-code':
-      exitCode = nextArg
+      exitCode = parseInt(nextArg)
       break
     }
   }
