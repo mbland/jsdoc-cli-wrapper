@@ -5,9 +5,9 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { runJsdoc, pathKey } from '../lib'
-import { fixturePath } from './fixtures'
-import DestDirHelper from './DestDirHelper'
+import { runJsdoc, pathKey, INSTALL_HINT } from '../lib/index.js'
+import { fixturePath } from './fixtures/index.js'
+import DestDirHelper from './DestDirHelper.js'
 import { afterEach, beforeEach, describe, expect, test } from 'vitest'
 import path from 'node:path'
 
@@ -19,7 +19,9 @@ describe('runJsdoc', () => {
   const platform = process.platform
   const destDirHelper = new DestDirHelper()
 
-  let origIndexPath = null
+  /** @type {string} */
+  let origIndexPath
+  /** @type {string[]} */
   let argv = []
 
   beforeEach(async () => {
@@ -34,11 +36,16 @@ describe('runJsdoc', () => {
 
   const readIndexHtml = async () => destDirHelper.readIndexHtml()
 
+  test('throws error if PATH/Path env var not found', async () => {
+    await expect(runJsdoc(argv, {}, platform))
+      .rejects.toThrowError(`"${PATH_KEY}" environment variable not defined`)
+  })
+
   test('emits error if jsdoc not found', async () => {
     const bogusPath = path.join(root, 'nonexistent')
 
     await expect(runJsdoc(argv, {[PATH_KEY]: bogusPath}, platform))
-      .rejects.toContain('npm add -g jsdoc')
+      .rejects.toContain(INSTALL_HINT)
     await expect(readIndexHtml()).resolves.toStrictEqual({
       actualPath: origIndexPath, content: 'Old and Busted'
     })
@@ -53,7 +60,7 @@ describe('runJsdoc', () => {
   })
 
   test('deletes existing output and returns error', async () => {
-    await expect(runJsdoc(argv.concat('--exit-code', 1), env, platform))
+    await expect(runJsdoc(argv.concat('--exit-code', '1'), env, platform))
       .resolves.toStrictEqual({exitCode: 1})
     await expect(readIndexHtml())
       .rejects.toThrowError(/no such file or directory/)

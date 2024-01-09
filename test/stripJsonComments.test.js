@@ -5,7 +5,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { stripJsonComments } from '../lib'
+import { stripJsonComments } from '../lib/index.js'
 import { describe, expect, test } from 'vitest'
 
 describe('stripJsonComments', () => {
@@ -216,9 +216,22 @@ describe('stripJsonComments', () => {
     // JSON.parse() from Node.js ^18.0.0 only ever fails with "Unexpected
     // token", whereas versions >= 19.0.0 provide more descriptive errors.
     const v18 = process.version.startsWith('v18.')
+    /**
+     * @param {string} token - token expected to cause a JSON.parse() error
+     * @param {string} msg - expected Node.js v >= 19.0.0 JSON.parse() error
+     * @returns {string} - the appropriate JSON.parse() error prefix
+     */
     const errPrefix = (token, msg) => v18 ? `Unexpected token ${token} in` : msg
 
+    /**
+     * @param  {string[]} lines - lines of text to join
+     * @returns {string} - lines joined by newlines
+     */
     const jsonSrc = (...lines) => lines.join('\n')
+    /**
+     * @param {string} src - original JSON source to strip
+     * @returns {object} - object parsed from src
+     */
     const stripAndParse = (src) => () => JSON.parse(stripJsonComments(src))
 
     test('* not preceded or followed by /', () => {

@@ -5,8 +5,8 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { analyzeArgv } from '../lib'
-import { fixturePath } from './fixtures'
+import { analyzeArgv } from '../lib/index.js'
+import { fixturePath } from './fixtures/index.js'
 import { describe, expect, test } from 'vitest'
 import path from 'node:path'
 
