@@ -224,7 +224,7 @@ describe('stripJsonComments', () => {
     const errPrefix = (token, msg) => v18 ? `Unexpected token ${token} in` : msg
 
     /**
-     * @param  {string[]} lines - lines of text to join
+     * @param  {...string} lines - lines of text to join
      * @returns {string} - lines joined by newlines
      */
     const jsonSrc = (...lines) => lines.join('\n')

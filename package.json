@@ -1,6 +1,6 @@
 {
   "name": "jsdoc-cli-wrapper",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "JSDoc command line interface wrapper",
   "main": "index.js",
   "bin": "./index.js",
@@ -9,9 +9,9 @@
     "lint": "eslint --color --max-warnings 0 .",
     "test": "vitest",
     "test:ci": "pnpm lint && pnpm typecheck && vitest run -c ci/vitest.config.js && pnpm jsdoc",
-    "typecheck": "npx -p typescript tsc -p jsconfig.json --noEmit --pretty",
     "jsdoc": "node index.js -c jsdoc.json .",
-    "prepack": "npx -p typescript tsc ./index.js --allowJs --declaration --declarationMap --emitDeclarationOnly --outDir types"
+    "typecheck": "npx tsc",
+    "prepack": "npx rimraf types && npx tsc ./index.js --allowJs --declaration --declarationMap --emitDeclarationOnly --outDir types"
   },
   "files": [
     "lib/**",
@@ -25,23 +25,23 @@
   "license": "MPL-2.0",
   "type": "module",
   "engines": {
-    "node": ">= 18.0.0"
+    "node": ">=18.0.0"
   },
   "homepage": "https://github.com/mbland/jsdoc-cli-wrapper",
   "repository": "https://github.com/mbland/jsdoc-cli-wrapper",
   "bugs": "https://github.com/mbland/jsdoc-cli-wrapper/issues",
   "devDependencies": {
     "@stylistic/eslint-plugin-js": "^1.5.3",
-    "@types/chai": "^4.3.11",
-    "@types/node": "^20.10.7",
-    "@vitest/coverage-istanbul": "^1.1.3",
-    "@vitest/coverage-v8": "^1.1.3",
-    "@vitest/ui": "^1.1.3",
+    "@types/node": "^20.11.3",
+    "@vitest/coverage-istanbul": "^1.2.0",
+    "@vitest/coverage-v8": "^1.2.0",
+    "@vitest/ui": "^1.2.0",
     "eslint": "^8.56.0",
     "eslint-plugin-jsdoc": "^46.10.1",
     "eslint-plugin-vitest": "^0.3.20",
     "jsdoc": "^4.0.2",
+    "rimraf": "^5.0.5",
     "typescript": "^5.3.3",
-    "vitest": "^1.1.3"
+    "vitest": "^1.2.0"
   }
 }
