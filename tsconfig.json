@@ -1,16 +1,21 @@
 {
   "compilerOptions": {
+    "allowJs": true,
     "checkJs": true,
     "lib": [
-      "ES2022"
+      "ES2022",
+      "WebWorker"
     ],
     "module": "node16",
     "target": "es2020",
-    "strict": true
+    "strict": true,
+    "noEmit": true,
+    "pretty": true
   },
   "exclude": [
     "node_modules/**",
     "coverage/**",
-    "jsdoc/**"
+    "jsdoc/**",
+    "types/**"
   ]
 }
