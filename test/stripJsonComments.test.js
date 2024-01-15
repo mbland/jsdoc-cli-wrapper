@@ -11,6 +11,12 @@ import { describe, expect, test } from 'vitest'
 describe('stripJsonComments', () => {
   const BASIC_OBJECT = {opts: {destination: 'foo'}}
 
+  /**
+   * @param  {...string} lines - lines of text to join
+   * @returns {string} - lines joined by newlines
+   */
+  const jsonSrc = (...lines) => lines.join('\n')
+
   describe('doesn\'t modify', () => {
     test('the empty string', () => {
       expect(stripJsonComments('')).toBe('')
@@ -61,7 +67,7 @@ describe('stripJsonComments', () => {
 
   describe('replaces', () => {
     test('line comments, preserving existing whitespace', () => {
-      const orig = [
+      const orig = jsonSrc(
         '// Frist',
         '{//\tSecond',
         '  // Third\r',
@@ -72,11 +78,11 @@ describe('stripJsonComments', () => {
         '  // Eighth',
         '}// Ninth',
         '// Tenth'
-      ].join('\n')
+      )
 
       const result = stripJsonComments(orig)
 
-      expect(result).toBe([
+      expect(result).toBe(jsonSrc(
         '        ',
         '{  \t      ',
         '          \r',
@@ -87,12 +93,12 @@ describe('stripJsonComments', () => {
         '           ',
         '}        ',
         '        '
-      ].join('\n'))
+      ))
       expect(JSON.parse(result)).toStrictEqual(BASIC_OBJECT)
     })
 
     test('block comments, preserving existing whitespace', () => {
-      const orig = [
+      const orig = jsonSrc(
         '/** Frist */',
         '{/*\tSecond',
         '  * Third\r',
@@ -103,11 +109,11 @@ describe('stripJsonComments', () => {
         '   /*Eighth*/',
         '}/* Ninth',
         '   Tenth*/'
-      ].join('\n')
+      )
 
       const result = stripJsonComments(orig)
 
-      expect(result).toBe([
+      expect(result).toBe(jsonSrc(
         '            ',
         '{  \t      ',
         '         \r',
@@ -118,12 +124,12 @@ describe('stripJsonComments', () => {
         '             ',
         '}        ',
         '          '
-      ].join('\n'))
+      ))
       expect(JSON.parse(result)).toStrictEqual(BASIC_OBJECT)
     })
 
     test('mixed comments and trailing commas before ] or }', () => {
-      const orig = [
+      const orig = jsonSrc(
         '// Frist',
         '{/* Second',
         '  * //Third',
@@ -138,11 +144,11 @@ describe('stripJsonComments', () => {
         '   /*Eighth*/',
         '} /* Ninth',
         '   Tenth*/'
-      ].join('\n')
+      )
 
       const result = stripJsonComments(orig)
 
-      expect(result).toBe([
+      expect(result).toBe(jsonSrc(
         '        ',
         '{         ',
         '           ',
@@ -157,7 +163,7 @@ describe('stripJsonComments', () => {
         '             ',
         '}         ',
         '          '
-      ].join('\n'))
+      ))
       expect(JSON.parse(result)).toStrictEqual({
         opts: { destinations: ['foo', 'bar', 'baz'] }
       })
@@ -166,48 +172,48 @@ describe('stripJsonComments', () => {
 
   describe('opens', () => {
     test('a block comment if character after "*/" is \'*\'', () => {
-      const orig = [
+      const orig = jsonSrc(
         '{/* Frist',
         ' */*',
         '  "opts": {',
         '    "destination": "doesn\'t matter, because commented out"',
         '  }*/',
         '}'
-      ].join('\n')
+      )
 
       const result = stripJsonComments(orig)
 
-      expect(result).toBe([
+      expect(result).toBe(jsonSrc(
         '{        ',
         '    ',
         '           ',
         '                                                          ',
         '     ',
         '}'
-      ].join('\n'))
+      ))
       expect(JSON.parse(result)).toStrictEqual({})
     })
 
     test('a line comment if character after "*/" is \'/\'', () => {
-      const orig = [
+      const orig = jsonSrc(
         '{/* Frist',
         '  "opts": {',
         '    "destination": "doesn\'t matter, because commented out"',
         '  Still commented out here, but next line will open a line comment.',
         '  *//}',
         '}'
-      ].join('\n')
+      )
 
       const result = stripJsonComments(orig)
 
-      expect(result).toBe([
+      expect(result).toBe(jsonSrc(
         '{        ',
         '           ',
         '                                                          ',
         '                                                                   ',
         '      ',
         '}'
-      ].join('\n'))
+      ))
       expect(JSON.parse(result)).toStrictEqual({})
     })
   })
@@ -216,6 +222,7 @@ describe('stripJsonComments', () => {
     // JSON.parse() from Node.js ^18.0.0 only ever fails with "Unexpected
     // token", whereas versions >= 19.0.0 provide more descriptive errors.
     const v18 = process.version.startsWith('v18.')
+
     /**
      * @param {string} token - token expected to cause a JSON.parse() error
      * @param {string} msg - expected Node.js v >= 19.0.0 JSON.parse() error
@@ -223,11 +230,6 @@ describe('stripJsonComments', () => {
      */
     const errPrefix = (token, msg) => v18 ? `Unexpected token ${token} in` : msg
 
-    /**
-     * @param  {...string} lines - lines of text to join
-     * @returns {string} - lines joined by newlines
-     */
-    const jsonSrc = (...lines) => lines.join('\n')
     /**
      * @param {string} src - original JSON source to strip
      * @returns {object} - object parsed from src
